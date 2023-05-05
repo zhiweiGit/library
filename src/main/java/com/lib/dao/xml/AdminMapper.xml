@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--填写要引用的包名+类名-->
+<mapper namespace="com.lib.dao.AdminMapper">
+    <sql id="field">
+        id,username,password
+    </sql>
+    <select id="selectAdminByUsername" resultType="com.lib.pojo.Admin">
+        select <include refid="field"></include> from admin
+        where username=#{username}
+    </select>
+    <select id="selectAdminById" resultType="com.lib.pojo.Admin">
+        select <include refid="field"></include> from admin
+        where id=#{id}
+    </select>
+</mapper>

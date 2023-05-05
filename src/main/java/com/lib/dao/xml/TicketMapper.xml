@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--填写要引用的包名+类名-->
+<mapper namespace="com.lib.dao.TicketMapper">
+
+    <sql id="insertField">
+        user_id,user_type,ticket,status,expired
+    </sql>
+    <sql id="selectField">
+        id,user_id,user_type,ticket,status,expired
+    </sql>
+    <insert id="insertTicket">
+        insert into login_ticket(<include refid="insertField"></include>)
+        values(#{userId},#{userType},#{ticket},#{status},#{expired})
+    </insert>
+    <update id="updateTicket">
+        update login_ticket
+        set status=#{status}
+        where id = #{id}
+    </update>
+    <select id="selectTicket" resultType="com.lib.pojo.LoginTicket">
+        select <include refid="selectField"></include> from login_ticket
+        where ticket=#{ticket}
+    </select>
+</mapper>

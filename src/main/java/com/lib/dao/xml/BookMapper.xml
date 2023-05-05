@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--填写要引用的包名+类名-->
+<mapper namespace="com.lib.dao.BookMapper">
+    <sql id="field">id,name,sid,number,author,publish,edition</sql>
+
+    <select id="selectBook" resultType="com.lib.pojo.Book">
+        select <include refid="field"></include> from book limit #{offset},#{limit} ;
+    </select>
+    <select id="selectBookBySomething" resultType="com.lib.pojo.Book">
+        select
+        <include refid="field"/>
+        from book
+        where number>0
+        <if test="keyword != null and keyword!=''">
+            and (name like "%"#{keyword}"%"
+            or author like "%"#{keyword}"%"
+            or publish like "%"#{keyword}"%")
+        </if>
+        <if test="sid!=0">
+            and sid =#{sid}
+        </if>
+        <if test="limit!=0">limit #{offset},#{limit}</if>
+    </select>
+    <select id="selectRows" resultType="java.lang.Integer">
+        select count(id)
+        from book;
+    </select>
+    <select id="selectAllSort" resultType="com.lib.pojo.Sort">
+        select *
+        from sort;
+    </select>
+    <select id="selectRowsByCondition" resultType="java.lang.Integer">
+        select count(*) from book
+        where number>0
+        <if test="keyword != null and keyword!=''">
+            and (name like "%"#{keyword}"%"
+            or author like "%"#{keyword}"%"
+            or publish like "%"#{keyword}"%")
+        </if>
+        <if test="sid!=0">
+            and sid =#{sid}
+        </if>
+    </select>
+</mapper>

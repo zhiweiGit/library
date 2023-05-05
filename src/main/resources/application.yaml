@@ -1,0 +1,23 @@
+spring:
+  thymeleaf:
+    cache: false
+    prefix: classpath:/templates/
+    suffix: .html
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/library
+    username: root
+    password: 123456
+    hikari:
+      maximum-pool-size: 15
+      minimum-idle: 5
+
+mybatis:
+  configuration:
+    use-generated-keys: true
+    map-underscore-to-camel-case: true
+  #  mapper-locations: classpath:mapper/*.xml
+  mapper-locations: classpath:/com/lib/dao/xml/*.xml
+logging:
+  level:
+    com.lib: debug
