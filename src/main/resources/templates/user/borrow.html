@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>书籍借阅</title>
-    <link rel="stylesheet" type="text/css" href="/css/bootstrap.css" />
-    <link rel="stylesheet" type="text/css" href="/css/bootstrap-responsive.css" />
-    <link rel="stylesheet" type="text/css" href="/css/style.css" />
+    <link rel="stylesheet" type="text/css" href="/css/bootstrap.css"/>
+    <link rel="stylesheet" type="text/css" href="/css/bootstrap-responsive.css"/>
+    <link rel="stylesheet" type="text/css" href="/css/style.css"/>
     <script type="text/javascript" src="/js/jquery.js"></script>
     <script type="text/javascript" src="/js/bootstrap.js"></script>
     <script type="text/javascript" src="/js/ckform.js"></script>
@@ -15,9 +15,11 @@
         body {
             padding-bottom: 40px;
         }
+
         .sidebar-nav {
             padding: 9px 0;
         }
+
         @media (max-width: 980px) {
             .navbar-text.pull-right {
                 float: none;
@@ -41,21 +43,28 @@
         <th>借书状态</th>
     </tr>
     </thead>
-    <tr th:each="borrow:${list}">
-        <td th:text="${borrow.bookName}"></td>
-        <td th:text="${borrow.sortName}"></td>
-        <td th:text="${borrow.author}"></td>
-        <td th:text="${borrow.publish}"></td>
-        <td th:text="${borrow.edition}"></td>
-        <td th:text="${borrow.startTime}"></td>
+    <tr th:each="borrowVo:${borrowVoList}">
+        <td th:text="${borrowVo.bookName}"></td>
+        <td th:text="${borrowVo.sid}" class="sid"></td>
+        <td th:text="${borrowVo.author}"></td>
+        <td th:text="${borrowVo.publish}"></td>
+        <td th:text="${borrowVo.edition}"></td>
+        <td th:text="${#dates.format(borrowVo.startTime,'yyyy-MM-dd HH:mm:ss')}"></td>
         <td>
-            <button type="button" th:if="${borrow.status == 0}" class="btn btn-default disabled" disabled>待确认</button>
-            <button type="button" th:if="${borrow.status == 1}" class="btn btn-default disabled" disabled>审批通过</button>
-            <button type="button" th:if="${borrow.status == 2}" class="btn btn-default disabled" disabled>审批未通过</button>
-            <button type="button" th:if="${borrow.status == 3}" class="btn btn-default disabled" disabled>归还待审批</button>
+            <button type="button" th:if="${borrowVo.status == 0}" class="btn btn-default disabled" disabled>待确认
+            </button>
+            <button type="button" th:if="${borrowVo.status == 1}" class="btn btn-default disabled" disabled>审批通过
+            </button>
+            <button type="button" th:if="${borrowVo.status == 2}" class="btn btn-default disabled">审批未通过
+            </button>
+            <button type="button" th:if="${borrowVo.status == 3}" class="btn btn-default disabled" disabled>归还待审批
+            </button>
+            <button type="button" th:if="${borrowVo.status == 4}" class="btn btn-default disabled" disabled>已归还
+            </button>
         </td>
     </tr>
 </table>
+<script type="text/javascript" src="/js/sid.js"></script>
 
 </body>
 </html>

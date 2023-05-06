@@ -19,4 +19,11 @@ public interface BookMapper {
     List<Book> selectBookBySomething(@Param("keyword") String keyword, @Param("sid") int sid, @Param("offset") int offset, @Param("limit") int limit);
 
     List<Sort> selectAllSort();
+
+    int insertBook(Book book);
+
+    int updateBookNumber(@Param("id") int id, @Param("number") int number);
+
+    Book selectBookById(@Param("id") int id);
+
 }

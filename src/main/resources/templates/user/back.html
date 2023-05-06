@@ -3,9 +3,9 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>书籍归还</title>
-    <link rel="stylesheet" type="text/css" href="/css/bootstrap.css" />
-    <link rel="stylesheet" type="text/css" href="/css/bootstrap-responsive.css" />
-    <link rel="stylesheet" type="text/css" href="/css/style.css" />
+    <link rel="stylesheet" type="text/css" href="/css/bootstrap.css"/>
+    <link rel="stylesheet" type="text/css" href="/css/bootstrap-responsive.css"/>
+    <link rel="stylesheet" type="text/css" href="/css/style.css"/>
     <script type="text/javascript" src="/js/jquery.js"></script>
     <script type="text/javascript" src="/js/bootstrap.js"></script>
     <script type="text/javascript" src="/js/ckform.js"></script>
@@ -14,6 +14,7 @@
         body {
             padding-bottom: 40px;
         }
+
         .sidebar-nav {
             padding: 9px 0;
         }
@@ -38,24 +39,60 @@
         <th>出版社</th>
         <th>版本</th>
         <th>申请时间</th>
+        <th>截至时间</th>
         <th>还书状态</th>
         <th>操作</th>
     </tr>
     </thead>
-    <tr th:each="back:${list}">
+    <tr th:each="back:${borrowVoList}">
         <td th:text="${back.id}"></td>
         <td th:text="${back.bookName}"></td>
         <td th:text="${back.author}"></td>
         <td th:text="${back.publish}"></td>
         <td th:text="${back.edition}"></td>
-        <td th:text="${back.startTime}"></td>
+        <td th:text="${#dates.format(back.startTime,'yyyy-MM-dd HH:mm:ss')}"></td>
+        <td th:text="${#dates.format(back.endTime,'yyyy-MM-dd HH:mm:ss')}"></td>
         <td>
             <button type="button" class="btn btn-default disabled" disabled>未归还</button>
         </td>
         <td>
-            <a type="button" class="btn btn-success" th:href="'/back/add?id='+${back.id}">归还</a>
+            <a type="button" class="btn btn-success" id="returnBtn">归还</a>
+            <a type="button" class="btn btn-success" id="renewalBtn">续期</a>
         </td>
     </tr>
 </table>
+<script>
+    $("#returnBtn").click(
+        function () {
+            $.post(
+                "http://" + window.location.host + "/user/return",
+                {"id": $(this).parent().parent().children().eq(0).text()},
+                function (data) {
+                    if (data === 0) {
+                        location.href = "http://" + window.location.host + "/user/back/list"
+                    } else {
+                        alert("归还失败，请稍后重试")
+                    }
+                }
+            )
+        }
+    )
+    $("#renewalBtn").click(
+        function () {
+            $.post(
+                "http://" + window.location.host + "/user/renewal",
+                {"id": $(this).parent().parent().children().eq(0).text()},
+                function (data) {
+                    if (data === 0) {
+                        location.href = "http://" + window.location.host + "/user/back/list"
+                    } else {
+                        alert("续期失败，请稍后重试")
+                    }
+                }
+            )
+        }
+    )
+
+</script>
 </body>
 </html>

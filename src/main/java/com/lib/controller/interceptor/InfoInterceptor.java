@@ -68,7 +68,7 @@ public class InfoInterceptor implements HandlerInterceptor {
             if (!request.getRequestURI().equals("/")
                     && !request.getRequestURI().contains("error")
                     && !request.getRequestURI().contains("login")) {
-                System.out.println(request.getRequestURI());
+                //System.out.println(request.getRequestURI());
                 response.sendRedirect("/");
                 return false;
 
@@ -80,7 +80,9 @@ public class InfoInterceptor implements HandlerInterceptor {
     @Override
     public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
         AllUser users = hostHolder.getUsers();
-        if (users != null) {
+        if (users != null && modelAndView != null) {
+            //System.out.println(request.getRequestURI());
+            //System.out.println(request.getMethod());
             modelAndView.addObject("allUser", users);
         }
     }

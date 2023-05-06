@@ -5,6 +5,16 @@
 <!--填写要引用的包名+类名-->
 <mapper namespace="com.lib.dao.BookMapper">
     <sql id="field">id,name,sid,number,author,publish,edition</sql>
+    <sql id="insert">name,sid,number,author,publish,edition</sql>
+    <insert id="insertBook">
+        insert into book(<include refid="insert"/>)
+        values (#{name}, #{sid},#{number},#{author},#{publish},#{edition})
+    </insert>
+    <update id="updateBookNumber">
+        update book
+        set number=#{number}
+        where id = #{id}
+    </update>
 
     <select id="selectBook" resultType="com.lib.pojo.Book">
         select <include refid="field"></include> from book limit #{offset},#{limit} ;
@@ -43,5 +53,10 @@
         <if test="sid!=0">
             and sid =#{sid}
         </if>
+    </select>
+    <select id="selectBookById" resultType="com.lib.pojo.Book">
+        select
+        <include refid="field"/>
+        from book where id=#{id}
     </select>
 </mapper>

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--填写要引用的包名+类名-->
+<mapper namespace="com.lib.dao.BorrowMapper">
+    <sql id="insertField">uid,bid,start_time,end_time,status</sql>
+    <sql id="selectField">id,uid,bid,start_time,end_time,status</sql>
+
+    <insert id="insertBorrow">
+        insert into borrow(<include refid="insertField"/>) values (#{uid},#{bid},#{startTime},#{endTime},#{status})
+    </insert>
+    <update id="updateBorrow">
+        update borrow
+        set end_time=#{endTime},
+            status=#{status}
+        where id = #{id}
+    </update>
+    <select id="selectBorrowByUid" resultType="com.lib.pojo.Borrow">
+        select
+        <include refid="selectField"/>
+        from borrow where uid=#{uid}
+    </select>
+    <select id="selectNoReturn" resultType="com.lib.pojo.Borrow">
+        select
+        <include refid="selectField"/>
+        from borrow where uid=#{uid} and status=1
+    </select>
+    <select id="selectBorrowById" resultType="com.lib.pojo.Borrow">
+        select
+        <include refid="selectField"/>
+        from borrow where id=#{id}
+    </select>
+    <select id="selectBorrowByUidAndStatus" resultType="com.lib.pojo.Borrow">
+        select
+        <include refid="selectField"/>
+        from borrow where
+        uid=#{uid} and status=#{status}
+    </select>
+    <select id="selectBorrowOther" resultType="com.lib.pojo.Borrow">
+        select
+        <include refid="selectField"/>
+        from borrow where
+        uid=#{uid} and status!=4
+    </select>
+</mapper>

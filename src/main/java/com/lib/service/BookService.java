@@ -33,4 +33,8 @@ public class BookService {
         return bookMapper.selectAllSort();
     }
 
+    public Book findBookById(int id) {
+        return bookMapper.selectBookById(id);
+    }
+
 }

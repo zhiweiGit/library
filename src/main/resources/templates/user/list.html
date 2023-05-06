@@ -79,12 +79,13 @@
     </tr>
     </thead>
     <tr th:each="book:${books}">
+        <td th:text="${book.id}" style="display: none"></td>
         <td th:text="${book.name}"></td>
         <td th:text="${book.sid}" class="sid"></td>
         <td th:text="${book.author}"></td>
         <td th:text="${book.publish}"></td>
         <td th:text="${book.edition}"></td>
-        <td><a type="button" class="btn btn-success" th:href="'/borrow/add?bookId='+${book.id}">借阅</a>
+        <td><a type="button" class="btn btn-success borrow">借阅</a>
         </td>
     </tr>
 </table>
@@ -96,20 +97,27 @@
     </div>
 </center>
 <script>
-    $(".sid").each(function () {
-        if ($(this).text() === "1") {
-            $(this).text("计算机类");
-        } else if ($(this).text() === "2") {
-            $(this).text("数学类");
-        } else if ($(this).text() === "3") {
-            $(this).text("英语类");
-        } else if ($(this).text() === "4") {
-            $(this).text("语文类");
-        } else if ($(this).text() === "5") {
-            $(this).text("生活类");
+    $(".borrow").click(
+        function () {
+            let id = $(this).parent().parent().children().eq(0).text();
+            $.post(
+                "http://" + window.location.host + "/user/book/borrow/",
+                {"bid": id},
+                function (data) {
+                    if (data === 0) {
+                        alert("成功")
+                    } else {
+                        alert(data)
+                    }
+
+                }
+            )
         }
-    })
+    )
+
 </script>
+<script type="text/javascript" src="/js/sid.js"></script>
+
 </body>
 
 </html>
