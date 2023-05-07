@@ -71,4 +71,35 @@ public class BorrowService {
         borrow.setEndTime(calendar.getTime());
         borrowMapper.updateBorrow(borrow);
     }
+
+    public void allowBorrow(int id) {
+        Borrow borrow = borrowMapper.selectBorrowById(id);
+        if (borrow == null) {
+            throw new IllegalArgumentException("参数错误");
+        }
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(new Date());
+        calendar.add(Calendar.MONTH, 1);
+        borrow.setEndTime(calendar.getTime());
+        borrow.setStatus(1);
+        borrowMapper.updateBorrow(borrow);
+    }
+
+    public void notAllowBorrow(int id) {
+        Borrow borrow = borrowMapper.selectBorrowById(id);
+        if (borrow == null) {
+            throw new IllegalArgumentException("参数错误");
+        }
+        borrow.setStatus(2);
+        borrowMapper.updateBorrow(borrow);
+    }
+
+    public void confirmBack(int id) {
+        Borrow borrow = borrowMapper.selectBorrowById(id);
+        if (borrow == null) {
+            throw new IllegalArgumentException("参数错误");
+        }
+        borrow.setStatus(4);
+        borrowMapper.updateBorrow(borrow);
+    }
 }

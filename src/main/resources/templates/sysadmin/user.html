@@ -3,9 +3,9 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Insert title here</title>
-    <link rel="stylesheet" type="text/css" href="/css/bootstrap.css" />
-    <link rel="stylesheet" type="text/css" href="/css/bootstrap-responsive.css" />
-    <link rel="stylesheet" type="text/css" href="/css/style.css" />
+    <link rel="stylesheet" type="text/css" href="/css/bootstrap.css"/>
+    <link rel="stylesheet" type="text/css" href="/css/bootstrap-responsive.css"/>
+    <link rel="stylesheet" type="text/css" href="/css/style.css"/>
     <script type="text/javascript" src="/js/jquery.js"></script>
     <script type="text/javascript" src="/js/bootstrap.js"></script>
     <script type="text/javascript" src="/js/ckform.js"></script>
@@ -14,9 +14,11 @@
         body {
             padding-bottom: 40px;
         }
+
         .sidebar-nav {
             padding: 9px 0;
         }
+
         @media (max-width: 980px) {
             .navbar-text.pull-right {
                 float: none;
@@ -28,31 +30,64 @@
 
 </head>
 <body>
-<form class="form-inline definewidth m20" action="/sysadmin/findByName" method="post">
+<form class="form-inline definewidth m20" action="/sysadmin/searchUser" method="post">
     用户名称：
-    <input type="text" name="username" id="username"class="abc input-default" placeholder="用户姓名" value="">&nbsp;&nbsp;
+    <input type="text" name="username" id="username" class="abc input-default" placeholder="用户姓名" value="">&nbsp;&nbsp;
     <button type="submit" class="btn btn-primary">查询</button>&nbsp;&nbsp;
     <a type="button" class="btn btn-primary" href="/sysadmin/addUser">增加用户</a>&nbsp;&nbsp;
 </form>
 <table class="table table-bordered table-hover definewidth m10">
     <thead>
     <tr>
-        <th>用户名称</th>
+        <th>用户类别</th>
+        <th>用户id</th>
         <th>用户账号</th>
         <th>用户密码</th>
         <th>操作</th>
     </tr>
     </thead>
     <tr th:each="user:${list}">
+        <td th:text="${user.type}"></td>
         <td th:text="${user.id}"></td>
         <td th:text="${user.username}"></td>
         <td th:text="${user.password}"></td>
         <td>
-            <a type="button" class="btn btn-success" th:href="'/user/findById/'+${user.id}">修改</a>
-            <a type="button" class="btn btn-danger" th:href="'/user/delete/'+${user.id}">删除</a>
+            <a type="button" class="btn btn-success update">修改</a>
+            <a type="button" class="btn btn-danger delete">删除</a>
         </td>
     </tr>
 </table>
+<script>
+    $(".update").click(
+        function () {
+            let type = $(this).parent().parent().children().eq(0).text();
+            let id = $(this).parent().parent().children().eq(1).text();
+            if (type === "普通用户") {
+                location.href = "/sysadmin/update/user/" + id;
+            } else if (type === "管理员") {
+                location.href = "/sysadmin/update/admin/" + id;
+            }
+        }
+    )
 
+    $(".delete").click(
+        function () {
+            let type = $(this).parent().parent().children().eq(0).text();
+            let id = $(this).parent().parent().children().eq(1).text();
+            $.post(
+                "/sysadmin/delete",
+                {"type": type, "id": id},
+                function (data) {
+                    console.log(data)
+                    if (data.code === 0) {
+                        location.href = "/sysadmin/userList"
+                    } else if (data.code === -1) {
+                        alert("权限不足")
+                    }
+                }
+            )
+        }
+    )
+</script>
 </body>
 </html>

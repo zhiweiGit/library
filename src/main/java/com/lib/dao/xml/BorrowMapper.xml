@@ -43,4 +43,10 @@
         from borrow where
         uid=#{uid} and status!=4
     </select>
+    <select id="selectBorrowByStatus" resultType="com.lib.pojo.Borrow">
+        select
+        <include refid="selectField"/>
+        from borrow
+        where status=#{status}
+    </select>
 </mapper>

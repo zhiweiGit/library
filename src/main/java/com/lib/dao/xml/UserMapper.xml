@@ -5,16 +5,40 @@
 <!--填写要引用的包名+类名-->
 <mapper namespace="com.lib.dao.UserMapper">
 
-    <sql id="field">
+    <sql id="selectField">
         id,username,password
     </sql>
+    <insert id="insertUser">
+        insert into user(username, password)
+        values (#{username}, #{password})
+    </insert>
+    <update id="updateUser">
+        update user
+        set username=#{username},
+            password=#{password}
+        where id = #{id}
+    </update>
+    <delete id="deleteUser">
+        delete
+        from user
+        where id = #{id}
+    </delete>
 
     <select id="selectUserByUsername" resultType="com.lib.pojo.User">
-        select <include refid="field"></include> from user
+        select
+        <include refid="selectField"/>
+        from user
         where username=#{username}
     </select>
     <select id="selectUserById" resultType="com.lib.pojo.User">
-        select <include refid="field"></include> from user
+        select
+        <include refid="selectField"/>
+        from user
         where id=#{id}
+    </select>
+    <select id="selectAllUser" resultType="com.lib.pojo.User">
+        select
+        <include refid="selectField"/>
+        from user
     </select>
 </mapper>

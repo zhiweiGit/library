@@ -63,6 +63,13 @@ public class InfoInterceptor implements HandlerInterceptor {
                         hostHolder.setUsers(sysAdmin);
                         break;
                 }
+            } else {
+                if (!request.getRequestURI().equals("/")
+                        && !request.getRequestURI().contains("error")
+                        && !request.getRequestURI().contains("login")) {
+                    response.sendRedirect("/");
+                    return false;
+                }
             }
         } else {
             if (!request.getRequestURI().equals("/")
@@ -71,7 +78,6 @@ public class InfoInterceptor implements HandlerInterceptor {
                 //System.out.println(request.getRequestURI());
                 response.sendRedirect("/");
                 return false;
-
             }
         }
         return true;
@@ -79,11 +85,17 @@ public class InfoInterceptor implements HandlerInterceptor {
 
     @Override
     public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
-        AllUser users = hostHolder.getUsers();
-        if (users != null && modelAndView != null) {
-            //System.out.println(request.getRequestURI());
-            //System.out.println(request.getMethod());
-            modelAndView.addObject("allUser", users);
+        AllUser user = hostHolder.getUsers();
+        if (user != null && modelAndView != null) {
+            if (user instanceof User) {
+                modelAndView.addObject("user", user);
+            }
+            if (user instanceof Admin) {
+                modelAndView.addObject("admin", user);
+            }
+            if (user instanceof SysAdmin) {
+                modelAndView.addObject("sysadmin", user);
+            }
         }
     }
 

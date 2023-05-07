@@ -121,4 +121,17 @@ public class BorrowVo {
         this.endTime = endTime;
         this.status = status;
     }
+
+    public BorrowVo(int id, String username, String bookName, int sid, String author, String publish, String edition, Date startTime, Date endTime, int status) {
+        this.id = id;
+        this.username = username;
+        this.bookName = bookName;
+        this.sid = sid;
+        this.author = author;
+        this.publish = publish;
+        this.edition = edition;
+        this.startTime = startTime;
+        this.endTime = endTime;
+        this.status = status;
+    }
 }

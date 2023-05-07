@@ -1,8 +1,12 @@
 package com.lib.pojo;
 
-public class User extends AllUser{
+public class User extends AllUser {
 
     public User() {
+    }
+
+    public User(String username, String password) {
+        super(username, password);
     }
 
     public int getId() {

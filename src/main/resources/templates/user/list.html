@@ -101,7 +101,7 @@
         function () {
             let id = $(this).parent().parent().children().eq(0).text();
             $.post(
-                "http://" + window.location.host + "/user/book/borrow/",
+                "/" + "/user/book/borrow/",
                 {"bid": id},
                 function (data) {
                     if (data === 0) {

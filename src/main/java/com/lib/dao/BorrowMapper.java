@@ -15,9 +15,12 @@ public interface BorrowMapper {
 
     List<Borrow> selectBorrowByUidAndStatus(@Param("uid") int uid, @Param("status") int status);
 
+    List<Borrow> selectBorrowByStatus(@Param("status") int status);
+
     List<Borrow> selectBorrowOther(@Param("uid") int uid);
 
     Borrow selectBorrowById(@Param("id") int id);
+
 
     List<Borrow> selectNoReturn(@Param("uid") int uid);
 

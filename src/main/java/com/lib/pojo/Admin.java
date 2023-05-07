@@ -1,8 +1,12 @@
 package com.lib.pojo;
 
-public class Admin extends AllUser{
+public class Admin extends AllUser {
 
     public Admin() {
+    }
+
+    public Admin(String username, String password) {
+        super(username, password);
     }
 
     public int getId() {

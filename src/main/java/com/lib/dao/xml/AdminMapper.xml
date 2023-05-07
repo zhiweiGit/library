@@ -4,15 +4,38 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <!--填写要引用的包名+类名-->
 <mapper namespace="com.lib.dao.AdminMapper">
-    <sql id="field">
+    <sql id="selectField">
         id,username,password
     </sql>
+    <sql id="updateField">
+        username,password
+    </sql>
+    <insert id="insertAdmin">
+        insert into admin(<include refid="updateField"/>) values (#{username},#{password})
+    </insert>
+    <update id="updateAdmin">
+        update admin
+        set username=#{username},
+            password=#{password}
+        where id = #{id}
+    </update>
+    <delete id="deleteAdmin">
+        delete
+        from admin
+        where id = #{id}
+    </delete>
     <select id="selectAdminByUsername" resultType="com.lib.pojo.Admin">
-        select <include refid="field"></include> from admin
+        select <include refid="selectField"></include> from admin
         where username=#{username}
     </select>
     <select id="selectAdminById" resultType="com.lib.pojo.Admin">
-        select <include refid="field"></include> from admin
+        select <include refid="selectField"></include> from admin
         where id=#{id}
     </select>
+    <select id="selectAllAdmin" resultType="com.lib.pojo.Admin">
+        select
+        <include refid="selectField"/>
+        from admin
+    </select>
+
 </mapper>

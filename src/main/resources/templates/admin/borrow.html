@@ -3,10 +3,10 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>借书处理</title>
-    <link rel="stylesheet" type="text/css" href="/css/jquery.pagination.css" />
-    <link rel="stylesheet" type="text/css" href="/css/bootstrap.css" />
-    <link rel="stylesheet" type="text/css" href="/css/bootstrap-responsive.css" />
-    <link rel="stylesheet" type="text/css" href="/css/style.css" />
+    <link rel="stylesheet" type="text/css" href="/css/jquery.pagination.css"/>
+    <link rel="stylesheet" type="text/css" href="/css/bootstrap.css"/>
+    <link rel="stylesheet" type="text/css" href="/css/bootstrap-responsive.css"/>
+    <link rel="stylesheet" type="text/css" href="/css/style.css"/>
     <script type="text/javascript" src="/js/jquery.js"></script>
     <script type="text/javascript" src="/js/bootstrap.js"></script>
     <script type="text/javascript" src="/js/ckform.js"></script>
@@ -16,9 +16,11 @@
         body {
             padding-bottom: 40px;
         }
+
         .sidebar-nav {
             padding: 9px 0;
         }
+
         @media (max-width: 980px) {
             /* Enable use of floated navbar text */
             .navbar-text.pull-right {
@@ -44,22 +46,23 @@
         <th>操作</th>
     </tr>
     </thead>
-    <tr th:each="borrow:${list}">
-        <td th:text="${borrow.userName}"></td>
+    <tr th:each="borrow:${borrowVoList}">
+        <td th:text="${borrow.id}" style="display: none"></td>
+        <td th:text="${borrow.username}"></td>
         <td th:text="${borrow.bookName}"></td>
-        <td th:text="${borrow.sortName}"></td>
+        <td th:text="${borrow.sid}" class="sid"></td>
         <td th:text="${borrow.author}"></td>
         <td th:text="${borrow.publish}"></td>
         <td th:text="${borrow.edition}"></td>
-        <td th:text="${borrow.startTime}"></td>
+        <td th:text="${#dates.format(borrow.startTime,'yyyy-MM-dd HH:mm:ss')}"></td>
         <td>
             <button type="button" class="btn btn-default disabled" disabled>
                 待审批
             </button>
         </td>
         <td>
-            <a type="button" class="btn btn-success" th:href="'/admin/allow?id='+${borrow.id}">通过</a>
-            <a type="button" class="btn btn-danger" th:href="'/admin/notAllow?id='+${borrow.id}">不通过</a>
+            <a type="button" class="btn btn-success" id="allow">通过</a>
+            <a type="button" class="btn btn-danger" id="notAllow">不通过</a>
         </td>
     </tr>
 </table>
@@ -68,5 +71,41 @@
         <div id="pagination2" class="page fl"></div>
     </div>
 </center>
+<script type="text/javascript" src="/js/sid.js"></script>
+<script>
+    $("#allow").click(
+        function () {
+            let id = $(this).parent().parent().children().eq(0).text();
+            $.post(
+                "/" + "/admin/allow/" + id,
+                {"id": id},
+                function (data) {
+                    if (data === 0) {
+                        location.href = "/" + "/admin/borrowList"
+                    } else {
+                        alert("系统错误，请稍后尝试!")
+                    }
+                }
+            )
+        }
+    )
+
+    $("#notAllow").click(
+        function () {
+            let id = $(this).parent().parent().children().eq(0).text();
+            $.post(
+                "/" + "/admin/notAllow/" + id,
+                {"id": id},
+                function (data) {
+                    if (data === 0) {
+                        location.href = "/" + +"/admin/borrowList"
+                    } else {
+                        alert("系统错误，请稍后尝试!")
+                    }
+                }
+            )
+        }
+    )
+</script>
 </body>
 </html>

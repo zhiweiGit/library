@@ -65,11 +65,11 @@
     $("#returnBtn").click(
         function () {
             $.post(
-                "http://" + window.location.host + "/user/return",
+                "/" + "/user/return",
                 {"id": $(this).parent().parent().children().eq(0).text()},
                 function (data) {
                     if (data === 0) {
-                        location.href = "http://" + window.location.host + "/user/back/list"
+                        location.href = "/" + "/user/back/list"
                     } else {
                         alert("归还失败，请稍后重试")
                     }
@@ -80,11 +80,11 @@
     $("#renewalBtn").click(
         function () {
             $.post(
-                "http://" + window.location.host + "/user/renewal",
+                "/" + "/user/renewal",
                 {"id": $(this).parent().parent().children().eq(0).text()},
                 function (data) {
                     if (data === 0) {
-                        location.href = "http://" + window.location.host + "/user/back/list"
+                        location.href = "/" + "/user/back/list"
                     } else {
                         alert("续期失败，请稍后重试")
                     }

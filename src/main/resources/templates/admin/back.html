@@ -44,7 +44,8 @@
     </tr>
     </thead>
     <tr th:each="back:${list}">
-        <td th:text="${back.userName}"></td>
+        <td th:text="${back.id}" style="display: none"></td>
+        <td th:text="${back.username}"></td>
         <td th:text="${back.bookName}"></td>
         <td th:text="${back.author}"></td>
         <td th:text="${back.publish}"></td>
@@ -55,7 +56,7 @@
             </button>
         </td>
         <td>
-            <a type="button" class="btn btn-success" th:href="'/back/allow?id='+${back.id}">确认归还</a>
+            <a type="button" class="btn btn-success" id="confirm">确认归还</a>
         </td>
     </tr>
 </table>
@@ -64,5 +65,24 @@
         <div id="pagination2" class="page fl"></div>
     </div>
 </center>
+<script type="text/javascript" src="/js/sid.js"></script>
+<script>
+    $("#confirm").click(
+        function () {
+            let id = $(this).parent().parent().children().eq(0).text()
+            $.post(
+                "/" + "/admin/confirmBack/" + id,
+                {"id": id},
+                function (data) {
+                    if (data === 0) {
+                        location.href = "/" + "/admin/backList"
+                    } else {
+                        alert("系统错误，请稍后尝试!")
+                    }
+                }
+            )
+        }
+    )
+</script>
 </body>
 </html>
