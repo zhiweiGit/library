@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--填写要引用的包名+类名-->
+<mapper namespace="com.lib.dao.SortMapper">
+    <insert id="insertSort">
+        insert into sort(name)
+        values (#{name})
+    </insert>
+
+    <update id="updateSort">
+        update sort
+        set name=#{name}
+        where id = #{id}
+    </update>
+    <delete id="deleteSort">
+        delete
+        from sort
+        where id = #{id}
+    </delete>
+    <select id="selectSortByCondition" resultType="com.lib.pojo.Sort">
+        select *
+        from sort
+        where name like "%"#{keyword}"%" or id=#{keyword}
+    </select>
+</mapper>

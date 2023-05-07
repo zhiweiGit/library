@@ -37,4 +37,16 @@ public class BookService {
         return bookMapper.selectBookById(id);
     }
 
+    public void insertBook(Book book) {
+        bookMapper.insertBook(book);
+    }
+
+    public void updateBook(Book book) {
+        bookMapper.updateBook(book);
+    }
+
+    public void deleteBook(int id) {
+        bookMapper.deleteBook(id);
+    }
+
 }

@@ -61,8 +61,8 @@
             </button>
         </td>
         <td>
-            <a type="button" class="btn btn-success" id="allow">通过</a>
-            <a type="button" class="btn btn-danger" id="notAllow">不通过</a>
+            <a type="button" class="btn btn-success allow">通过</a>
+            <a type="button" class="btn btn-danger notAllow">不通过</a>
         </td>
     </tr>
 </table>
@@ -73,15 +73,15 @@
 </center>
 <script type="text/javascript" src="/js/sid.js"></script>
 <script>
-    $("#allow").click(
+    $(".allow").click(
         function () {
             let id = $(this).parent().parent().children().eq(0).text();
             $.post(
-                "/" + "/admin/allow/" + id,
+                "/" + "admin/allow/" + id,
                 {"id": id},
                 function (data) {
                     if (data === 0) {
-                        location.href = "/" + "/admin/borrowList"
+                        location.href = "/admin/borrowList"
                     } else {
                         alert("系统错误，请稍后尝试!")
                     }
@@ -90,15 +90,15 @@
         }
     )
 
-    $("#notAllow").click(
+    $(".notAllow").click(
         function () {
             let id = $(this).parent().parent().children().eq(0).text();
             $.post(
-                "/" + "/admin/notAllow/" + id,
+                "/" + "admin/notAllow/" + id,
                 {"id": id},
                 function (data) {
                     if (data === 0) {
-                        location.href = "/" + +"/admin/borrowList"
+                        location.href = "/admin/borrowList"
                     } else {
                         alert("系统错误，请稍后尝试!")
                     }

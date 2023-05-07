@@ -1,6 +1,7 @@
 package com.lib;
 
 import com.lib.dao.BookMapper;
+import com.lib.dao.SortMapper;
 import com.lib.dao.TicketMapper;
 import com.lib.pojo.Book;
 import com.lib.util.HostHolder;
@@ -21,6 +22,8 @@ class LibApplicationTests {
 
     @Autowired
     private BookMapper bookMapper;
+    @Autowired
+    private SortMapper sortMapper;
 
     @Autowired
     private TicketMapper ticketMapper;
@@ -43,6 +46,11 @@ class LibApplicationTests {
         //List<Book> c = bookMapper.selectBookBySomething("C++", 0, null, "清华");
         List<Book> c = bookMapper.selectBook(0, 5);
         System.out.println(c);
+    }
+
+    @Test
+    void sortTest() {
+        System.out.println(sortMapper.selectSortByCondition("类"));
     }
 
 }

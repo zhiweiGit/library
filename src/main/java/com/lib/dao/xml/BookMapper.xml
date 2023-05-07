@@ -15,6 +15,21 @@
         set number=#{number}
         where id = #{id}
     </update>
+    <update id="updateBook">
+        update book
+        set name=#{name},
+            sid=#{sid},
+            number=#{number},
+            author=#{author},
+            publish=#{publish},
+            edition=#{edition}
+        where id = #{id}
+    </update>
+    <delete id="deleteBook">
+        delete
+        from book
+        where id = #{id}
+    </delete>
 
     <select id="selectBook" resultType="com.lib.pojo.Book">
         select <include refid="field"></include> from book limit #{offset},#{limit} ;

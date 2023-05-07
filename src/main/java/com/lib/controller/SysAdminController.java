@@ -1,11 +1,7 @@
 package com.lib.controller;
 
-import com.lib.pojo.Admin;
-import com.lib.pojo.AllUser;
-import com.lib.pojo.User;
-import com.lib.service.AdminService;
-import com.lib.service.SysAdminService;
-import com.lib.service.UserService;
+import com.lib.pojo.*;
+import com.lib.service.*;
 import com.lib.vo.UserVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -20,6 +16,12 @@ import java.util.Map;
 @Controller
 @RequestMapping("sysadmin")
 public class SysAdminController {
+
+    @Autowired
+    private BookService bookService;
+
+    @Autowired
+    private SortService sortService;
 
     @Autowired
     private UserService userService;
@@ -52,19 +54,24 @@ public class SysAdminController {
     }
 
     @GetMapping("bookList")
-    public String bookList() {
+    public String bookList(Model model, Page page, String keyword) {
+        List<Book> books = bookService.findBookByCondition(keyword, 0, page.getOffset(), page.getLimit());
+        model.addAttribute("books", books);
+        List<Sort> sorts = bookService.findAllSort();
+        model.addAttribute("sorts", sorts);
+        model.addAttribute("keyword", keyword);
+        //设置分页
+        page.setRows(bookService.findRowsByCondition(keyword, 0));
         return "sysadmin/book";
     }
 
     @GetMapping("sortList")
-    public String sortList() {
+    public String sortList(Model model) {
+        List<Sort> sorts = bookService.findAllSort();
+        model.addAttribute("sorts", sorts);
         return "sysadmin/sort";
     }
 
-    @GetMapping("addUser")
-    public String addUser() {
-        return "sysadmin/addUser";
-    }
 
     @PostMapping("searchUser")
     public String searchUser(String username, Model model) {
@@ -132,4 +139,79 @@ public class SysAdminController {
         map.put("code", 0);
         return map;
     }
+
+    @GetMapping("addBook")
+    public String addBook(Model model) {
+        List<Sort> sorts = bookService.findAllSort();
+        model.addAttribute("sorts", sorts);
+        return "sysadmin/addBook";
+    }
+
+    @PostMapping("addBook")
+    public String addBook(Book book) {
+        bookService.insertBook(book);
+        return "redirect:bookList";
+    }
+
+    @GetMapping("updateBook/{id}")
+    public String updateBook(@PathVariable("id") int id, Model model) {
+        Book book = bookService.findBookById(id);
+        model.addAttribute("sorts", bookService.findAllSort());
+        model.addAttribute("book", book);
+        return "sysadmin/updateBook";
+    }
+
+    @PostMapping("updateBook")
+    public String updateBook(Book book) {
+        bookService.updateBook(book);
+        return "redirect:bookList";
+    }
+
+    @PostMapping("deleteBook")
+    public String deleteBook(int id) {
+        bookService.deleteBook(id);
+        return "redirect:bookList";
+    }
+
+    @GetMapping("updateSort/{id}")
+    public String updateSort(@PathVariable("id") int id, Model model) {
+        List<Sort> sorts = bookService.findAllSort();
+        for (Sort sort : sorts) {
+            if (id == sort.getId()) {
+                model.addAttribute("sort", sort);
+            }
+        }
+        return "sysadmin/updateSort";
+    }
+
+    @PostMapping("updateSort")
+    public String updateSort(Sort sort) {
+        sortService.updateSort(sort);
+        return "redirect:sortList";
+    }
+
+    @PostMapping("deleteSort")
+    public String deleteSort(int id) {
+        sortService.deleteSort(id);
+        return "redirect:sortList";
+    }
+
+    @GetMapping("addSort")
+    public String addSort() {
+        return "sysadmin/addSort";
+    }
+
+    @PostMapping("addSort")
+    public String addSort(Sort sort) {
+        sortService.insertSort(sort);
+        return "redirect:sortList";
+    }
+
+    @PostMapping("searchSort")
+    public String searchSort(String keyword, Model model) {
+        List<Sort> sorts = sortService.findSortByCondition(keyword);
+        model.addAttribute("sorts", sorts);
+        return "/sysadmin/sort";
+    }
+
 }

@@ -3,10 +3,10 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>书籍管理</title>
-    <link rel="stylesheet" type="text/css" href="/css/jquery.pagination.css" />
-    <link rel="stylesheet" type="text/css" href="/css/bootstrap.css" />
-    <link rel="stylesheet" type="text/css" href="/css/bootstrap-responsive.css" />
-    <link rel="stylesheet" type="text/css" href="/css/style.css" />
+    <link rel="stylesheet" type="text/css" href="/css/jquery.pagination.css"/>
+    <link rel="stylesheet" type="text/css" href="/css/bootstrap.css"/>
+    <link rel="stylesheet" type="text/css" href="/css/bootstrap-responsive.css"/>
+    <link rel="stylesheet" type="text/css" href="/css/style.css"/>
     <script type="text/javascript" src="/js/jquery.js"></script>
     <script type="text/javascript" src="/js/bootstrap.js"></script>
     <script type="text/javascript" src="/js/ckform.js"></script>
@@ -16,9 +16,11 @@
         body {
             padding-bottom: 40px;
         }
+
         .sidebar-nav {
             padding: 9px 0;
         }
+
         @media (max-width: 980px) {
             .navbar-text.pull-right {
                 float: none;
@@ -27,16 +29,42 @@
             }
         }
     </style>
+    <script>
+        $(function () {
+            var keyword = $("#username").val()
+            var sid = $("#sid").val()
+            var cp = parseInt($("#curPage").val());
+            var tp = parseInt($("#tolPage").val());
+            $("#pagination2").pagination({
+                currentPage: cp,
+                totalPage: tp,
+                isShow: false,
+                count: 5,
+                prevPageText: "< 上一页",
+                nextPageText: "下一页 >",
+                callback: function (current) {
+                    var url = '/sysadmin/bookList?current=' + current;
+                    if (keyword != null) {
+                        url = url + "&keyword=" + keyword;
+                    }
+                    if (sid !== 0) {
+                        url = url + "&sid=" + sid;
+                    }
+                    location.href = url;
+                }
+            });
+        });
+    </script>
 </head>
 <body>
 <form class="form-inline definewidth m20" id="form"
-      action="/book/findByKey" method="post">
-    书籍关键字： <input type="text" name="key" id="username"
-                 class="abc input-default" placeholder="书籍关键字" value="">&nbsp;&nbsp;
+      action="/sysadmin/bookList" method="get">
+    书籍关键字： <input type="text" name="keyword" id="username"
+                       class="abc input-default" placeholder="书籍关键字" value="">&nbsp;&nbsp;
     <button type="submit" class="btn btn-primary">查询</button>
     &nbsp;&nbsp; <a type="button" class="btn btn-primary"
-                    href="/sort/list">增加书籍</a>&nbsp;&nbsp;
-    <input id="CurrentPage" type="hidden" name="currentPage" value="1" />
+                    href="/sysadmin/addBook">增加书籍</a>&nbsp;&nbsp;
+    <input id="CurrentPage" type="hidden" name="currentPage" value="1"/>
 </form>
 <table class="table table-bordered table-hover definewidth m10">
     <thead>
@@ -50,24 +78,29 @@
         <th>操作</th>
     </tr>
     </thead>
-    <tr th:each="book:${list}">
+    <tr th:each="book:${books}">
         <td th:text="${book.name}"></td>
-        <td th:text="${book.sname}"></td>
+        <td th:text="${book.sid}" th:class="sid"></td>
         <td th:text="${book.author}"></td>
         <td th:text="${book.publish}"></td>
         <td th:text="${book.edition}"></td>
         <td th:text="${book.number}"></td>
         <td><a type="button" class="btn btn-success"
-               th:href="'/book/findById/'+${book.id}">修改</a>
-            <a type="button" class="btn btn-danger"
-               th:href="'/book/delete/'+${book.id}">删除</a>
+               th:href="'/sysadmin/updateBook/'+${book.id}">修改</a>
+            <form action="/sysadmin/deleteBook" method="post" style="display: inline">
+                <input type="hidden" th:value="${book.id}" name="id">
+                <button class="btn btn-danger">删除</button>
+            </form>
         </td>
     </tr>
 </table>
+<input th:value="${page.current}" type="hidden" id="curPage"/>
+<input th:value="${page.total}" type="hidden" id="tolPage"/>
 <center>
     <div class="box">
         <div id="pagination2" class="page fl"></div>
     </div>
 </center>
+<script type="text/javascript" src="/js/sid.js"></script>
 </body>
 </html>

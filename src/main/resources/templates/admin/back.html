@@ -56,7 +56,7 @@
             </button>
         </td>
         <td>
-            <a type="button" class="btn btn-success" id="confirm">确认归还</a>
+            <a type="button" class="btn btn-success confirm" id="confirm">确认归还</a>
         </td>
     </tr>
 </table>
@@ -71,11 +71,11 @@
         function () {
             let id = $(this).parent().parent().children().eq(0).text()
             $.post(
-                "/" + "/admin/confirmBack/" + id,
+                "/admin/confirmBack/" + id,
                 {"id": id},
                 function (data) {
                     if (data === 0) {
-                        location.href = "/" + "/admin/backList"
+                        location.href = "/admin/backList"
                     } else {
                         alert("系统错误，请稍后尝试!")
                     }

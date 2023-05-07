@@ -56,20 +56,20 @@
             <button type="button" class="btn btn-default disabled" disabled>未归还</button>
         </td>
         <td>
-            <a type="button" class="btn btn-success" id="returnBtn">归还</a>
-            <a type="button" class="btn btn-success" id="renewalBtn">续期</a>
+            <a type="button" class="btn btn-success returnBtn">归还</a>
+            <a type="button" class="btn btn-success renewalBtn">续期</a>
         </td>
     </tr>
 </table>
 <script>
-    $("#returnBtn").click(
+    $(".returnBtn").click(
         function () {
             $.post(
-                "/" + "/user/return",
+                "/user/return",
                 {"id": $(this).parent().parent().children().eq(0).text()},
                 function (data) {
                     if (data === 0) {
-                        location.href = "/" + "/user/back/list"
+                        location.href = "/user/back/list"
                     } else {
                         alert("归还失败，请稍后重试")
                     }
@@ -77,14 +77,14 @@
             )
         }
     )
-    $("#renewalBtn").click(
+    $(".renewalBtn").click(
         function () {
             $.post(
-                "/" + "/user/renewal",
+                "/user/renewal",
                 {"id": $(this).parent().parent().children().eq(0).text()},
                 function (data) {
                     if (data === 0) {
-                        location.href = "/" + "/user/back/list"
+                        location.href = "/user/back/list"
                     } else {
                         alert("续期失败，请稍后重试")
                     }

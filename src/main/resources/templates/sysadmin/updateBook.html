@@ -3,9 +3,9 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Insert title here</title>
-    <link rel="stylesheet" type="text/css" href="/css/bootstrap.css" />
-    <link rel="stylesheet" type="text/css" href="/css/bootstrap-responsive.css" />
-    <link rel="stylesheet" type="text/css" href="/css/style.css" />
+    <link rel="stylesheet" type="text/css" href="/css/bootstrap.css"/>
+    <link rel="stylesheet" type="text/css" href="/css/bootstrap-responsive.css"/>
+    <link rel="stylesheet" type="text/css" href="/css/style.css"/>
     <script type="text/javascript" src="/js/jquery.js"></script>
     <script type="text/javascript" src="/js/jquery.sorted.js"></script>
     <script type="text/javascript" src="/js/bootstrap.js"></script>
@@ -15,6 +15,7 @@
         body {
             padding-bottom: 40px;
         }
+
         .sidebar-nav {
             padding: 9px 0;
         }
@@ -29,7 +30,7 @@
     </style>
 </head>
 <body>
-<form action="/book/update" method="post" class="definewidth m20">
+<form action="/sysadmin/updateBook" method="post" class="definewidth m20">
     <table class="table table-bordered table-hover definewidth m10">
         <tr>
             <td width="10%" class="tableleft">书籍ID</td>
@@ -44,7 +45,7 @@
             <td>
                 <!-- 完善数据库后添加补上类别 -->
                 <select class="form-control" name="sid">
-                    <option th:each="sort:${list}" th:text="${sort.name}"
+                    <option th:each="sort:${sorts}" th:text="${sort.name}"
                             th:selected="${sort.id == book.sid}"
                             th:value="${sort.id}"></option>
                 </select>
@@ -56,7 +57,7 @@
         </tr>
         <tr>
             <td class="tableleft">出版社</td>
-            <td><input type="text" name="birth" th:value="${book.publish}"/></td>
+            <td><input type="text" name="publish" th:value="${book.publish}"/></td>
         </tr>
         <tr>
             <td class="tableleft">版本</td>
@@ -69,7 +70,11 @@
         <tr>
             <td class="tableleft"></td>
             <td>
-                <button type="submit" class="btn btn-primary">更改</button> &nbsp;&nbsp;<a type="button" class="btn btn-success" name="backid" id="backid" href="/sysadmin/bookList">返回列表</a>
+                <button type="submit" class="btn btn-primary">更改</button> &nbsp;&nbsp;
+                <a type="button"
+                   class="btn btn-success"
+                   name="backid" id="backid"
+                   href="/sysadmin/bookList">返回列表</a>
             </td>
         </tr>
     </table>
@@ -78,8 +83,8 @@
 </html>
 <script>
     $(function () {
-        $('#backid').click(function(){
-            window.location.href="index.html";
+        $('#backid').click(function () {
+            window.location.href = "index.html";
         });
 
     });

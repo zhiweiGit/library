@@ -90,6 +90,9 @@ public class BorrowService {
         if (borrow == null) {
             throw new IllegalArgumentException("参数错误");
         }
+        Book book = bookMapper.selectBookById(borrow.getBid());
+        book.setNumber(book.getNumber() + 1);
+        bookMapper.updateBook(book);
         borrow.setStatus(2);
         borrowMapper.updateBorrow(borrow);
     }
@@ -99,6 +102,9 @@ public class BorrowService {
         if (borrow == null) {
             throw new IllegalArgumentException("参数错误");
         }
+        Book book = bookMapper.selectBookById(borrow.getUid());
+        book.setNumber(book.getNumber() + 1);
+        bookMapper.updateBook(book);
         borrow.setStatus(4);
         borrowMapper.updateBorrow(borrow);
     }

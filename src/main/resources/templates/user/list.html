@@ -75,6 +75,7 @@
         <th>作者</th>
         <th>出版社</th>
         <th>版本</th>
+        <th>数量</th>
         <th>操作</th>
     </tr>
     </thead>
@@ -85,6 +86,7 @@
         <td th:text="${book.author}"></td>
         <td th:text="${book.publish}"></td>
         <td th:text="${book.edition}"></td>
+        <td th:text="${book.number}"></td>
         <td><a type="button" class="btn btn-success borrow">借阅</a>
         </td>
     </tr>
@@ -99,12 +101,14 @@
 <script>
     $(".borrow").click(
         function () {
-            let id = $(this).parent().parent().children().eq(0).text();
+            let line = $(this).parent().parent().children()
+            let id = line.eq(0).text();
             $.post(
-                "/" + "/user/book/borrow/",
+                "/user/book/borrow/",
                 {"bid": id},
                 function (data) {
                     if (data === 0) {
+                        location.href = "/user/book/list"
                         alert("成功")
                     } else {
                         alert(data)

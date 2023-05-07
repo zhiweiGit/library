@@ -24,6 +24,10 @@ public interface BookMapper {
 
     int updateBookNumber(@Param("id") int id, @Param("number") int number);
 
+    int updateBook(Book book);
+
     Book selectBookById(@Param("id") int id);
+
+    int deleteBook(int id);
 
 }
